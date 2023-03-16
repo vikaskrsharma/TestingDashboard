@@ -1,0 +1,50 @@
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    <title>Postman Run Stats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+
+<body>
+<div class="container">
+    <h2>Postman Suite Run Stats</h2>
+    <hr />
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Iterations</th>
+            <th>TestName</th>
+            <th>Items</th>
+            <th>TotalRequests</th>
+            <th>FailedAssertions</th>
+            <th>StartAt</th>
+            <th>CompleteAt</th>
+            <th>Started By</th>
+            <th>Report</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="runStat: ${runStats}">
+            <td th:text="${runStat.id}" />
+            <td th:text="${runStat.iterations}" />
+            <td th:text="${runStat.testName}" />
+            <td th:text="${runStat.items}" />
+            <td th:text="${runStat.totalRequests}" />
+            <td th:text="${runStat.failedAssertions}" />
+            <td th:text="${#dates.format(runStat.started, 'dd-MM-yyyy HH:mm:ss')}" />
+            <td th:text="${#dates.format(runStat.completed, 'dd-MM-yyyy HH:mm:ss')}" />
+            <td th:text="${runStat.startedby}" />
+            <td><a th:href="${runStat.report}" th:target="_blank">Report</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Testing Dashboard</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div class="container my-2">
+    <h1>Collection Run List</h1>
+
+<!--    <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee </a>-->
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Id</th>
+<!--            <th>Iterations</th>-->
+            <th>TestName</th>
+            <th>Items</th>
+            <th>TotalRequests</th>
+            <th>FailedAssertions</th>
+            <th>StartAt</th>
+            <th>CompleteAt</th>
+            <th>Started By</th>
+            <th>Report</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="runStat : ${listRunStats}">
+            <td th:text="${runStat.id}" />
+<!--            <td th:text="${runStat.iterations}" />-->
+            <td th:text="${runStat.testName}" />
+            <td th:text="${runStat.items}" />
+            <td th:text="${runStat.totalRequests}" />
+            <td th:style="${runStat.failedAssertions > '0' ? 'color:black;background-color:red' : 'color:black'}"
+                th:text="${runStat.failedAssertions}" />
+            <td th:text="${#dates.format(runStat.started, 'dd-MM-yyyy HH:mm:ss')}" />
+            <td th:text="${#dates.format(runStat.completed, 'dd-MM-yyyy HH:mm:ss')}" />
+            <td th:text="${runStat.startedby}" />
+            <td><a th:href="${runStat.report}" th:target="_blank">Report</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${totalPages > 1}">
+<!--        <div class="row col-sm-10">-->
+<!--            <div class="col-sm-2">-->
+<!--                Total Runs: [[${totalItems}]]-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled': ''">
+                    <a class="page-link" th:href="@{'/runstats/page/' + ${currentPage - 1}}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i ? 'active':''}">
+                    <a class="page-link"  th:href="@{'/runstats/page/' + ${i}}">[[${i}]]</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled': ''">
+                    <a class="page-link" th:href="@{'/runstats/page/' + ${currentPage + 1}}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+</body>
+
+</html>
